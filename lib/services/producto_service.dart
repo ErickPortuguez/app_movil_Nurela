@@ -54,9 +54,16 @@ class ApiServiceProducto {
   }
 
   static Future<void> eliminarProducto(int id) async {
-    final response = await http.delete(Uri.parse('$baseUrl/$id'));
-    if (response.statusCode != 204) {
-      throw Exception('Failed to delete producto');
+    final response = await http.put(Uri.parse('$baseUrl/eliminar/$id'));
+    if (response.statusCode != 200) {
+      throw Exception('Failed to delete producto: ${response.statusCode} - ${response.body}');
+    }
+  }
+
+  static Future<void> restaurarProducto(int id) async {
+    final response = await http.put(Uri.parse('$baseUrl/restaurar/$id'));
+    if (response.statusCode != 200) {
+      throw Exception('Failed to restore producto: ${response.statusCode} - ${response.body}');
     }
   }
 

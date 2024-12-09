@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/models/categoria_model.dart';
+import 'package:myapp/models/categoria_model.dart' as categoria_model;
 import 'package:myapp/models/usuario_model.dart';
 import 'package:myapp/models/cita_model.dart';
 import 'package:myapp/models/producto_model.dart';
@@ -37,7 +37,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
   Future<void> _getActiveCategorias() async {
     try {
-      List<Categoria> activeCategorias = await ApiServiceCategoria.listarCategoriasPorEstado("A");
+      List<categoria_model.Categoria> activeCategorias = await ApiServiceCategoria.listarCategoriasPorEstado("A");
       setState(() {
         activeCategoriasCount = activeCategorias.length;
       });
@@ -70,7 +70,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
   Future<void> _getActiveVentas() async {
     try {
-      List<Venta> activeVentas = await ApiServiceVenta.getActiveVentas();
+      List<Venta> activeVentas = await VentaService.getActiveVentas();
       setState(() {
         activeVentasCount = activeVentas.length;
       });

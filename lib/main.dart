@@ -1,11 +1,19 @@
-import 'package:flutter/material.dart'; // Proporciona Widgets y temas preferidos de Material Design
-import 'screens/UserListScreen.dart'; // Importa la pantalla de lista de los usuarios que será la pantalla principal
-import 'screens/user_dashboard_screen.dart'; // Client view
-import 'utils/session_manager.dart'; // Maneja la sesión del usuario
-import 'screens/login_screen.dart'; // Pantalla de login
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'screens/pages/dashboard.dart';
+import 'utils/session_manager.dart';
+import 'screens/login_screen.dart';
 
 void main() {
-  runApp(const MyApp()); // Inicia la aplicación ejecutando el widget MyApp
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+    statusBarBrightness: Brightness.dark,
+    systemNavigationBarColor: Colors.transparent,
+    systemNavigationBarDividerColor: Colors.transparent,
+    systemNavigationBarIconBrightness: Brightness.dark,
+    statusBarIconBrightness: Brightness.dark,
+  ));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -14,13 +22,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Gestión Barbería',
       theme: ThemeData(
-        primarySwatch: Colors.blue, // Configuración de colores
-        fontFamily: 'Roboto', // Cambiar a una fuente predeterminada legible
+        primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: Colors.white,
+        canvasColor: Colors.white,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.white,
+        ),
+        fontFamily: 'Roboto',
         textTheme: const TextTheme(
-          bodyMedium:
-              TextStyle(fontSize: 16.0), // Asegura un tamaño de texto estándar
+          bodyMedium: TextStyle(fontSize: 16.0),
         ),
       ),
       home: FutureBuilder(
@@ -28,16 +41,12 @@ class MyApp extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
-              child: CircularProgressIndicator(), // Mostrar mientras se carga
+              child: CircularProgressIndicator(),
             );
           } else if (snapshot.hasData) {
-            if (snapshot.data == 'admin') {
-              return const UserListScreen(); // Admin
-            } else {
-              return const UserDashboardScreen(); // Cliente
-            }
+            return const DashboardPage(); // Corrected class name
           } else {
-            return const LoginScreen(); // No hay sesión
+            return const LoginScreen();
           }
         },
       ),
@@ -45,7 +54,6 @@ class MyApp extends StatelessWidget {
   }
 
   Future<String?> _checkSession() async {
-    return await SessionManager()
-        .getUserRole(); // Obtiene el rol si está logueado
+    return await SessionManager().getUserRole();
   }
 }

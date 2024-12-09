@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../services/usuario_service.dart';
 import '../utils/session_manager.dart';
-import 'UserListScreen.dart'; // Admin view
-import 'user_dashboard_screen.dart'; // Client view
+import 'package:myapp/screens/pages/dashboard.dart'; // Adjust this path according to your project structure
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -13,65 +12,154 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final UsuarioService usuarioService = UsuarioService();
+  final _formKey = GlobalKey<FormState>();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final ApiServiceUsuario usuarioService = ApiServiceUsuario();
+  bool isVisible = false;
+  bool isLoading = false;
+  String errorMessage = '';
 
   void _login() async {
-    String email = emailController.text;
-    String password = passwordController.text;
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        isLoading = true;
+        errorMessage = '';
+      });
 
-    try {
-      final usuario = await usuarioService.login(
-          email, password); // Implementa login en el servicio
-      if (usuario != null) {
-        // Guardar la sesión
-        await SessionManager()
-            .saveUserSession(usuario.idUsuario!, usuario.rol!);
+      String email = emailController.text;
+      String password = passwordController.text;
 
-        // Redirigir según el rol
-        if (usuario.rol == 'admin') {
+      try {
+        final usuario = await ApiServiceUsuario.login(email, password);
+        if (usuario != null && usuario.rol == 'admin') {
+          await SessionManager().saveUserSession(usuario.idUsuario!, usuario.rol!);
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => const UserListScreen()),
+            MaterialPageRoute(builder: (context) => const DashboardPage()),
           );
-        } else if (usuario.rol == 'cliente') {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => UserDashboardScreen()),
-          );
+        } else {
+          setState(() {
+            errorMessage = 'Usuario o Contraseña es invalido';
+          });
         }
+      } catch (e) {
+        setState(() {
+          errorMessage = 'Error: $e';
+        });
+      } finally {
+        setState(() {
+          isLoading = false;
+        });
       }
-    } catch (e) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Error: $e')));
     }
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Inicio de Sesión')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: <Widget>[
-            TextField(
-              controller: emailController,
-              decoration:
-                  const InputDecoration(labelText: 'Correo electrónico'),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    "lib/assets/login.png", // Adjust this path according to your project structure
+                    width: 210,
+                  ),
+                  const SizedBox(height: 15),
+                  Container(
+                    margin: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.blue.withOpacity(.2),
+                    ),
+                    child: TextFormField(
+                      controller: emailController,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Correo electrónico es requerido";
+                        }
+                        return null;
+                      },
+                      decoration: const InputDecoration(
+                        icon: Icon(Icons.person),
+                        border: InputBorder.none,
+                        hintText: "Correo electrónico",
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.blue.withOpacity(.2),
+                    ),
+                    child: TextFormField(
+                      controller: passwordController,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Contraseña es requerida";
+                        }
+                        return null;
+                      },
+                      obscureText: !isVisible,
+                      decoration: InputDecoration(
+                        icon: const Icon(Icons.lock),
+                        border: InputBorder.none,
+                        hintText: "Contraseña",
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              isVisible = !isVisible;
+                            });
+                          },
+                          icon: Icon(isVisible ? Icons.visibility : Icons.visibility_off),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Container(
+                    height: 55,
+                    width: MediaQuery.of(context).size.width * .9,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.blue,
+                    ),
+                    child: TextButton(
+                      onPressed: _login,
+                      child: isLoading
+                          ? const CircularProgressIndicator(color: Colors.white)
+                          : const Text(
+                              "LOGIN",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  if (errorMessage.isNotEmpty)
+                    Text(
+                      errorMessage,
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                ],
+              ),
             ),
-            TextField(
-              controller: passwordController,
-              decoration: const InputDecoration(labelText: 'Contraseña'),
-              obscureText: true,
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _login,
-              child: const Text('Iniciar Sesión'),
-            ),
-          ],
+          ),
         ),
       ),
     );
