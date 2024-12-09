@@ -1,47 +1,60 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../models/cita_model.dart';
+import 'package:myapp/config.dart';
+import 'package:myapp/models/cita_model.dart';
 
-class CitaService {
-  final String baseUrl =
-      'https://19d1-190-232-88-124.ngrok-free.app/citas'; // Cambia al endpoint de tu API
+class ApiServiceCita {
+  static const String baseUrl = '${Config.baseUrl}/api/citas';
 
-  // Listar citas
-  Future<List<Cita>> listarCitas() async {
+  static Future<List<Cita>> listarCitas() async {
     final response = await http.get(Uri.parse(baseUrl));
     if (response.statusCode == 200) {
-      List<dynamic> data = json.decode(response.body);
-      return data.map((citaJson) => Cita.fromJson(citaJson)).toList();
+      Iterable data = json.decode(utf8.decode(response.bodyBytes));
+      return List<Cita>.from(data.map((model) => Cita.fromJson(model)));
     } else {
-      throw Exception('Error al listar citas');
+      throw Exception('Failed to load citas');
     }
   }
 
-  // Crear cita
-  Future<Cita> crearCita(Cita cita) async {
+  static Future<void> agregarCita(Cita cita) async {
     final response = await http.post(
       Uri.parse(baseUrl),
-      headers: {"Content-Type": "application/json"},
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
       body: jsonEncode(cita.toJson()),
     );
-    if (response.statusCode == 201) {
-      return Cita.fromJson(json.decode(response.body));
-    } else {
-      throw Exception('Error al crear cita');
+    if (response.statusCode != 201) {
+      throw Exception('Failed to add cita: ${response.statusCode} - ${response.body}');
     }
   }
 
-  // Actualizar cita
-  Future<Cita> actualizarCita(int id, Cita cita) async {
+  static Future<Cita?> obtenerCita(int id) async {
+    final response = await http.get(Uri.parse('$baseUrl/$id'));
+    if (response.statusCode == 200) {
+      return Cita.fromJson(json.decode(utf8.decode(response.bodyBytes)));
+    } else {
+      throw Exception('Failed to get cita');
+    }
+  }
+
+  static Future<void> editarCita(int id, Cita cita) async {
     final response = await http.put(
       Uri.parse('$baseUrl/$id'),
-      headers: {"Content-Type": "application/json"},
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
       body: jsonEncode(cita.toJson()),
     );
-    if (response.statusCode == 200) {
-      return Cita.fromJson(json.decode(response.body));
-    } else {
-      throw Exception('Error al actualizar cita');
+    if (response.statusCode != 200) {
+      throw Exception('Failed to update cita: ${response.statusCode} - ${response.body}');
+    }
+  }
+
+  static Future<void> eliminarCita(int id) async {
+    final response = await http.delete(Uri.parse('$baseUrl/$id'));
+    if (response.statusCode != 200) {
+      throw Exception('Failed to delete cita');
     }
   }
 }

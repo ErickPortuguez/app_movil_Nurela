@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../services/UsuarioService.dart';
+import '../services/usuario_service.dart';
 import '../models/usuario_model.dart';
 
 class UserDetailScreen extends StatefulWidget {

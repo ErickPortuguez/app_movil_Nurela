@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'UserListScreen.dart'; // Importar la pantalla de la lista de usuarios
-import 'ProductListScreen.dart'; // Importar la pantalla de la lista de productos
+import 'ProductoListScreen.dart'; // Importar la pantalla de la lista de productos
 import 'VentaListScreen.dart'; // Importar la pantalla de la lista de ventas
 
 class HomeScreen extends StatelessWidget {

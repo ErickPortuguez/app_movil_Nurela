@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../services/UsuarioService.dart';
+import '../services/usuario_service.dart';
 import '../utils/session_manager.dart';
 import 'UserListScreen.dart'; // Admin view
 import 'user_dashboard_screen.dart'; // Client view

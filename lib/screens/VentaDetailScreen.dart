@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/venta_model.dart';
-import '../services/VentaService.dart';
+import '../services/venta_service.dart';
 
 class VentaDetailScreen extends StatefulWidget {
   final int idVenta;

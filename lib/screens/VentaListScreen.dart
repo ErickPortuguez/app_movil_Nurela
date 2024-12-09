@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../services/VentaService.dart';
+import '../services/venta_service.dart';
 import '../models/venta_model.dart';
 import 'VentaDetailScreen.dart';
 import 'VentaCreateScreen.dart';
