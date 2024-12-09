@@ -6,7 +6,7 @@ import 'package:myapp/models/usuario_model.dart';
 class ApiServiceUsuario {
   static const String baseUrl = '${Config.baseUrl}/api/usuarios';
 
-  static Future<Usuario?> login(String email, String password) async {
+   static Future<Usuario?> login(String email, String password) async {
     final response = await http.post(
       Uri.parse('$baseUrl/login'),
       headers: <String, String>{

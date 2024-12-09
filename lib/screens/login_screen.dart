@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../services/usuario_service.dart';
-import '../utils/session_manager.dart';
 import 'package:myapp/screens/pages/dashboard.dart'; // Adjust this path according to your project structure
 
 class LoginScreen extends StatefulWidget {
@@ -15,7 +14,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final ApiServiceUsuario usuarioService = ApiServiceUsuario();
   bool isVisible = false;
   bool isLoading = false;
   String errorMessage = '';
@@ -33,7 +31,6 @@ class _LoginScreenState extends State<LoginScreen> {
       try {
         final usuario = await ApiServiceUsuario.login(email, password);
         if (usuario != null && usuario.rol == 'admin') {
-          await SessionManager().saveUserSession(usuario.idUsuario!, usuario.rol!);
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => const DashboardPage()),
@@ -81,7 +78,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 15),
                   Container(
                     margin: const EdgeInsets.all(8),
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       color: Colors.blue.withOpacity(.2),
@@ -103,7 +101,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   Container(
                     margin: const EdgeInsets.all(8),
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       color: Colors.blue.withOpacity(.2),
@@ -127,7 +126,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               isVisible = !isVisible;
                             });
                           },
-                          icon: Icon(isVisible ? Icons.visibility : Icons.visibility_off),
+                          icon: Icon(isVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off),
                         ),
                       ),
                     ),
