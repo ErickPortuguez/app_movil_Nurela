@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/UsuarioService.dart';
-import '../models/usuario.dart';
+import '../models/usuario_model.dart';
 
 // ignore: use_key_in_widget_constructors
 class UserCreateScreen extends StatefulWidget {

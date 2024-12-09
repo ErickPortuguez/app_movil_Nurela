@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/VentaService.dart';
-import '../models/venta.dart';
+import '../models/venta_model.dart';
 import 'VentaDetailScreen.dart';
 import 'VentaCreateScreen.dart';
 import 'HomeScreen.dart';

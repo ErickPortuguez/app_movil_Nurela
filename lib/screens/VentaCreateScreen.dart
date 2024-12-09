@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/venta.dart';
+import '../models/venta_model.dart';
 import '../services/VentaService.dart';
 
 class VentaCreateScreen extends StatefulWidget {

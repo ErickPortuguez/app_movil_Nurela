@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../models/cita.dart';
+import '../models/cita_model.dart';
 
 class CitaService {
   final String baseUrl =
-      'https://fe9b-200-60-18-106.ngrok-free.app/citas'; // Cambia al endpoint de tu API
+      'https://19d1-190-232-88-124.ngrok-free.app/citas'; // Cambia al endpoint de tu API
 
   // Listar citas
   Future<List<Cita>> listarCitas() async {

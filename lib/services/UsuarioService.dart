@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../models/usuario.dart';
+import '../models/usuario_model.dart';
 
 /*
 Este archivo contiene la clase UsuarioService que maneja todas 
@@ -12,8 +12,8 @@ class UsuarioService {
   Propiedad baseUrl:
   URL base de la API para las operaciones de usuario.
   */
-  final String baseUrl = 'https://fe9b-200-60-18-106.ngrok-free.app/usuarios';
-  final String baseUrlNormal = 'https://fe9b-200-60-18-106.ngrok-free.app/';
+  final String baseUrl = 'https://19d1-190-232-88-124.ngrok-free.app/usuarios';
+  final String baseUrlNormal = 'https://19d1-190-232-88-124.ngrok-free.app/';
   // Implementación del login
   Future<Usuario?> login(String email, String password) async {
     final response = await http.post(

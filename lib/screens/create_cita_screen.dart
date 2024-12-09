@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/cita.dart';
+import '../models/cita_model.dart';
 import '../services/cita_service.dart';
 
 class CreateCitaScreen extends StatefulWidget {

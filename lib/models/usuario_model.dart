@@ -1,6 +1,3 @@
-//Define el modelo de datos para un usuario (Usuario).
-//Este modelo se utiliza para representar y manipular
-//la información de los usuarios en la aplicación.
 class Usuario {
   int? idUsuario;
   String? tipoDeDocumento;
@@ -26,16 +23,6 @@ class Usuario {
     this.activo = 1,
   });
 
-  /*
-  Permite crear instancias de Usuario con valores opcionales.
-  Por defecto, activo se establece en 1 (activo).
-  */
-
-  /*
-  Factory constructor que crea una instancia de Usuario a partir de un mapa JSON.
-Facilita la conversión de datos recibidos desde la API a objetos de Dart.
-  */
-  // Convertir un JSON en un objeto Usuario
   factory Usuario.fromJson(Map<String, dynamic> json) {
     return Usuario(
       idUsuario: json['idUsuario'],
@@ -51,11 +38,6 @@ Facilita la conversión de datos recibidos desde la API a objetos de Dart.
     );
   }
 
-  /*
-  Convierte una instancia de Usuario a un mapa JSON.
-  Utilizado para enviar datos a la API en formato JSON.
-  */
-  // Convertir un objeto Usuario a JSON
   Map<String, dynamic> toJson() {
     return {
       'idUsuario': idUsuario,
@@ -69,5 +51,20 @@ Facilita la conversión de datos recibidos desde la API a objetos de Dart.
       'rol': rol,
       'activo': activo,
     };
+  }
+
+  static Usuario empty() {
+    return Usuario(
+      idUsuario: null,
+      tipoDeDocumento: '',
+      numeroDeDocumento: '',
+      nombre: '',
+      apellido: '',
+      celular: '',
+      email: '',
+      password: '',
+      rol: '',
+      activo: 1,
+    );
   }
 }

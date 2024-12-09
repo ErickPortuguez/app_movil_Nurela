@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../models/producto.dart';
+import '../models/producto_model.dart';
 
 /*
 Este archivo contiene la clase ProductoService que maneja todas 
@@ -13,7 +13,7 @@ class ProductoService {
   URL base de la API para las operaciones de productos.
   */
   final String baseUrl =
-      'https://fe9b-200-60-18-106.ngrok-free.app/api/productos';
+      'https://19d1-190-232-88-124.ngrok-free.app/api/productos';
 
   // Obtener lista de todos los productos
   Future<List<Producto>> listarProductos() async {

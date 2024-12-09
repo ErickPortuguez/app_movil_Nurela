@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/ProductoService.dart';
-import '../models/producto.dart';
+import '../models/producto_model.dart';
 import 'ProductoDetailScreen.dart';
 import 'ProductoCreateScreen.dart';
 import 'HomeScreen.dart'; // Asegúrate de importar HomeScreen

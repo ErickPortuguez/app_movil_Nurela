@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/UsuarioService.dart';
-import '../models/usuario.dart';
+import '../models/usuario_model.dart';
 import 'UserDetailScreen.dart';
 import 'UserCreateScreen.dart';
 import 'HomeScreen.dart'; // Asegúrate de importar HomeScreen
