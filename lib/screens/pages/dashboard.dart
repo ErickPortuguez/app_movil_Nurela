@@ -26,43 +26,30 @@ class DashboardPage extends StatefulWidget {
 class _DashboardPageState extends State<DashboardPage> {
   int activeUsuariosCount = 0;
   int activeCategoriasCount = 0;
-  int activeCitasCount = 0;
   int activeProductosCount = 0;
   int activeVentasCount = 0;
   var currentPage = DrawerSections.dashboard;
 
   Future<void> _getActiveUsuarios() async {
-    try {
-      List<Usuario> activeUsuarios =
-          await ApiServiceUsuario.getActiveUsuarios();
-      setState(() {
-        activeUsuariosCount = activeUsuarios.length;
-      });
-    } catch (e) {
-      print('Error fetching active usuarios: $e');
-    }
+  try {
+    List<Usuario> activeUsuarios = await ApiServiceUsuario.getActiveUsuarios();
+    setState(() {
+      activeUsuariosCount = activeUsuarios.length;
+    });
+  } catch (e) {
+    print('Error fetching active usuarios: $e');
   }
+}
 
   Future<void> _getActiveCategorias() async {
     try {
       List<categoria_model.Categoria> activeCategorias =
-          await ApiServiceCategoria.listarCategoriasPorEstado("A");
+          await ApiServiceCategoria.listarCategorias();
       setState(() {
         activeCategoriasCount = activeCategorias.length;
       });
     } catch (e) {
       print('Error fetching active categorias: $e');
-    }
-  }
-
-  Future<void> _getActiveCitas() async {
-    try {
-      List<Cita> activeCitas = await ApiServiceCita.listarCitas();
-      setState(() {
-        activeCitasCount = activeCitas.length;
-      });
-    } catch (e) {
-      print('Error fetching active citas: $e');
     }
   }
 
@@ -94,7 +81,6 @@ class _DashboardPageState extends State<DashboardPage> {
     super.initState();
     _getActiveUsuarios();
     _getActiveCategorias();
-    _getActiveCitas();
     _getActiveProductos();
     _getActiveVentas();
   }

@@ -26,19 +26,19 @@ class _UsuariosPageState extends State<UsuariosPage> {
   }
 
   Future<void> _loadUsuarios() async {
-    try {
-      List<Usuario> activeUsuarios = await ApiServiceUsuario.getActiveUsuarios();
-      List<Usuario> inactiveUsuarios = await ApiServiceUsuario.getInactiveUsuarios();
-      _usuarioList = [...activeUsuarios, ...inactiveUsuarios];
-      _usuarioList.sort((a, b) => a.nombre!.compareTo(b.nombre!)); // Ordena por nombres
-      _filteredUsuarioList = _usuarioList; // Inicialmente, muestra todos los usuarios
-      setState(() {});
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error al cargar los usuarios: $e')),
-      );
-    }
+  try {
+    List<Usuario> activeUsuarios = await ApiServiceUsuario.getActiveUsuarios();
+    List<Usuario> inactiveUsuarios = await ApiServiceUsuario.getInactiveUsuarios();
+    _usuarioList = [...activeUsuarios, ...inactiveUsuarios];
+    _usuarioList.sort((a, b) => a.nombre!.compareTo(b.nombre!)); // Ordena por nombres
+    _filteredUsuarioList = _usuarioList; // Inicialmente, muestra todos los usuarios
+    setState(() {});
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Error al cargar los usuarios: $e')),
+    );
   }
+}
 
   void _filterUsuarios() {
     String query = _searchController.text.toLowerCase();

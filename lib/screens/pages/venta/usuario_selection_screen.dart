@@ -22,20 +22,20 @@ class _UsuarioSelectionScreenState extends State<UsuarioSelectionScreen> {
   }
 
   Future<void> _cargarUsuarios() async {
-    try {
-      final usuarios = await ApiServiceUsuario.getActiveUsuarios();
-      setState(() {
-        _usuarios = usuarios;
-        _usuariosFiltrados = usuarios;
-      });
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error al cargar los usuarios: $e'),
-        ),
-      );
-    }
+  try {
+    final usuarios = await ApiServiceUsuario.getActiveUsuarios();
+    setState(() {
+      _usuarios = usuarios;
+      _usuariosFiltrados = usuarios;
+    });
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Error al cargar los usuarios: $e'),
+      ),
+    );
   }
+}
 
   void _filtrarUsuarios(String consulta) {
     setState(() {
@@ -53,7 +53,8 @@ class _UsuarioSelectionScreenState extends State<UsuarioSelectionScreen> {
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 21, 0, 156),
         iconTheme: const IconThemeData(color: Colors.white),
-        title: const Text('Lista de Usuarios', style: TextStyle(color: Colors.white)),
+        title: const Text('Lista de Usuarios',
+            style: TextStyle(color: Colors.white)),
       ),
       body: Column(
         children: [
