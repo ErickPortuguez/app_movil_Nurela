@@ -37,7 +37,7 @@ class VentaService {
 
   static Future<void> createVenta(Venta venta) async {
     final response = await http.post(
-      Uri.parse(baseUrl),
+      Uri.parse('$baseUrl/registrar'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
